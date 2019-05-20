@@ -1,92 +1,63 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import {
-  AppBar,
   Grid,
-  Toolbar as MaterialToolbar,
-  IconButton,
   Typography,
-  Menu,
-  MenuItem,
   withStyles,
   Paper,
   Divider as MaterialDivider
 } from '@material-ui/core'
-import { AccountCircle } from '@material-ui/icons'
-import { ReactComponent as MainLogo } from 'images/logo-react-zzaria.svg'
+
+import Header from './header'
 import { AuthContext } from 'contexts/auth'
 
 const Main = () => {
-  const [anchorElement, setAnchorElement] = useState(null)
-  const { userInfo, logout } = useContext(AuthContext)
-  const userName = userInfo.user.displayName.split(' ')[0]
-
-  const handleOpenMenu = (e) => {
-    setAnchorElement(e.target)
-  }
-
-  const handleClose = () => {
-    setAnchorElement(null)
-  }
+  const { userInfo } = useContext(AuthContext)
 
   return (
     <>
-      <AppBar>
-        <Toolbar>
-          <LogoContainer>
-            <Logo />
-          </LogoContainer>
-
-          <Typography color='inherit'>
-            Olá {userName} =)
-          </Typography>
-
-          <IconButton color='inherit' onClick={handleOpenMenu}>
-            <AccountCircle />
-          </IconButton>
-
-          <Menu
-            open={Boolean(anchorElement)}
-            onClose={handleClose}
-            anchorEl={anchorElement}
-          >
-            <MenuItem onClick={logout}>Sair</MenuItem>
-          </Menu>
-        </Toolbar>
-      </AppBar>
+      <Header />
 
       <Spacer />
 
       <Content>
         <Grid container direction='column' alignItems='center'>
-          <Typography variant='h3' gutterBottom>
-            O que vai ser hoje, {userName}? =)
-          </Typography>
+          <Title variant='h3'>
+            O que vai ser hoje, {userInfo.user.firstName}? =)
+          </Title>
 
-          <Typography variant='h4' gutterBottom>
+          <Title variant='h4'>
             Escolha o tamanho da pizza:
-          </Typography>
+          </Title>
         </Grid>
 
-        <Grid container spacing={16}>
+        <PizzasGrid container spacing={16}>
           {pizzaSizes.map((pizza) => (
-            <Grid item key={pizza.id} xs={4}>
+            <Grid item key={pizza.id} xs>
               <PaperPizza>
                 <Pizza>
-                  <PizzeText>{pizza.size}cm</PizzeText>
+                  <PizzaText>{pizza.size}cm</PizzaText>
                 </Pizza>
 
                 <Divider />
 
                 <Typography variant='h5'>{pizza.name}</Typography>
-                <Typography>{pizza.slices} fatias, {pizza.flavours} sabores</Typography>
+                <Typography>
+                  {pizza.slices} fatias, {' '}
+                  {pizza.flavours} {' '}
+                  {singularOrPlural(pizza.flavours, 'sabor', 'sabores')}
+                </Typography>
               </PaperPizza>
             </Grid>
           ))}
-        </Grid>
+        </PizzasGrid>
       </Content>
     </>
   )
+}
+
+function singularOrPlural (amout, singular, plural) {
+  return amout === 1 ? singular : plural
 }
 
 const pizzaSizes = [
@@ -120,11 +91,17 @@ const Divider = styled(MaterialDivider)`
   width: 100%;
 `
 
+const Title = styled(Typography).attrs({
+  gutterBottom: true,
+  align: 'center'
+})``
+
 const PaperPizza = styled(Paper)`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px 0;
+  min-width: 250px;
 `
 
 const Pizza = styled.div`
@@ -156,7 +133,7 @@ const Pizza = styled.div`
   }
 `
 
-const PizzeText = styled(Typography).attrs({
+const PizzaText = styled(Typography).attrs({
   variant: 'h5'
 })`
   height: 80px;
@@ -170,27 +147,11 @@ const PizzeText = styled(Typography).attrs({
   z-index: 1;
 `
 
-const Toolbar = styled(MaterialToolbar)`
-  margin: 0 auto;
-  max-width: 960px;
-  width: 100%;
-`
-
-const LogoContainer = styled.div`
-  flex-grow: 1;
-`
-
-const Logo = styled(MainLogo)`
-  height: 50px;
-  width: 200px;
-
-  & path {
-    fill: #fff;
-  }
-
-  & line {
-    stroke: #fff;
-  }
+const PizzasGrid = styled(Grid).attrs({
+  container: true,
+  spacing: 16
+})`
+  padding: 20px;
 `
 
 const Content = styled.main`
