@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import {
   Grid,
@@ -24,7 +24,7 @@ const ChoosePizzaSize = () => {
         </Title>
       </Grid>
 
-      <PizzasGrid container spacing={16}>
+      <PizzasGrid container spacing={2}>
         {pizzaSizes.map((pizza) => (
           <Grid item key={pizza.id} xs>
             <PaperPizza>
@@ -115,9 +115,9 @@ const PizzaText = styled(Typography).attrs({
 
 const PizzasGrid = styled(Grid).attrs({
   container: true,
-  spacing: 16
+  spacing: 2
 })`
   padding: 20px;
 `
 
-export default ChoosePizzaSize;
+export default ChoosePizzaSize

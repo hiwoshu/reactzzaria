@@ -4,9 +4,16 @@ import styled from 'styled-components'
 import { withStyles } from '@material-ui/core'
 import Header from './header'
 
-const ChoosePizzaSize = React.lazy(() => import('pages/choose-pizza-size'))
+import { HOME, CHOOSE_PIZZA_FLAVOURS } from 'routes'
 
-const Main = () => {
+const ChoosePizzaSize = React.lazy(
+  () => import('pages/choose-pizza-size')
+)
+const ChoosePizzaFlavours = React.lazy(
+  () => import('pages/choose-pizza-flavours')
+)
+
+const Main = () => (
   <>
     <Header />
 
@@ -15,12 +22,20 @@ const Main = () => {
     <Content>
       <Suspense fallback='Loading...'>
         <Switch>
-          <Route path='/' exact component={ChoosePizzaSize} />
+          <Route
+            path={HOME}
+            exact
+            component={ChoosePizzaSize}
+          />
+          <Route
+            path={CHOOSE_PIZZA_FLAVOURS}
+            component={ChoosePizzaFlavours}
+          />
         </Switch>
       </Suspense>
     </Content>
   </>
-}
+)
 
 const Content = styled.main`
   padding: 20px;
