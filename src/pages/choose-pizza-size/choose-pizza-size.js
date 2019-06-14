@@ -1,13 +1,17 @@
 import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import {
+  Card,
+  CardActionArea as MaterialCardActionArea,
   Grid,
   Typography,
-  Paper,
   Divider as MaterialDivider
 } from '@material-ui/core'
 import { AuthContext } from 'contexts/auth'
 import pizzaSizes from 'fake-data/pizzas-sizes'
+
+import { CHOOSE_PIZZA_FLAVOURS } from 'routes'
 
 const ChoosePizzaSize = () => {
   const { userInfo } = useContext(AuthContext)
@@ -27,20 +31,26 @@ const ChoosePizzaSize = () => {
       <PizzasGrid container spacing={2}>
         {pizzaSizes.map((pizza) => (
           <Grid item key={pizza.id} xs>
-            <PaperPizza>
-              <Pizza>
-                <PizzaText>{pizza.size}cm</PizzaText>
-              </Pizza>
+            <Card>
+              <CardActionArea to={{
+                pathname: CHOOSE_PIZZA_FLAVOURS,
+                state: pizza
+              }}>
+                <Pizza>
+                  <PizzaText>{pizza.size}cm</PizzaText>
+                </Pizza>
 
-              <Divider />
+                <Divider />
 
-              <Typography variant='h5'>{pizza.name}</Typography>
-              <Typography>
-                {pizza.slices} fatias, {' '}
-                {pizza.flavours} {' '}
-                {singularOrPlural(pizza.flavours, 'sabor', 'sabores')}
-              </Typography>
-            </PaperPizza>
+                <Typography variant='h5'>{pizza.name}</Typography>
+                <Typography>
+                  {pizza.slices} fatias, {' '}
+                  {pizza.flavours} {' '}
+                  {singularOrPlural(pizza.flavours, 'sabor', 'sabores')}
+                </Typography>
+              </CardActionArea>
+
+            </Card>
           </Grid>
         ))}
       </PizzasGrid>
@@ -62,7 +72,9 @@ const Title = styled(Typography).attrs({
   align: 'center'
 })``
 
-const PaperPizza = styled(Paper)`
+const CardActionArea = styled(MaterialCardActionArea).attrs({
+  component: Link
+})`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -79,6 +91,8 @@ const Pizza = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  background: #fff;
+  z-index: 1;
 
   &::before,
   &::after {
