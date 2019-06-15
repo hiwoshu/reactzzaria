@@ -2,11 +2,11 @@ import React, { useState, useContext } from 'react'
 import styled from 'styled-components'
 import {
   AppBar,
-  Toolbar as MaterialToolbar,
   IconButton,
-  Typography,
   Menu,
-  MenuItem
+  MenuItem,
+  Toolbar as MaterialToolbar,
+  Typography
 } from '@material-ui/core'
 import { AccountCircle } from '@material-ui/icons'
 import { ReactComponent as MainLogo } from 'images/logo-react-zzaria.svg'
@@ -23,6 +23,7 @@ const Header = () => {
   const handleClose = () => {
     setAnchorElement(null)
   }
+
   return (
     <AppBar>
       <Toolbar>
@@ -55,9 +56,11 @@ const Toolbar = styled(MaterialToolbar)`
   max-width: 960px;
   width: 100%;
 `
+
 const LogoContainer = styled.div`
   flex-grow: 1;
-`
+  `
+
 const Logo = styled(MainLogo)`
   height: 50px;
   width: 200px;

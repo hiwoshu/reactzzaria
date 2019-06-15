@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import {
   Card,
   CardActionArea as MaterialCardActionArea,
+  Divider as MaterialDivider,
   Grid,
-  Typography,
-  Divider as MaterialDivider
+  Typography
 } from '@material-ui/core'
 import { AuthContext } from 'contexts/auth'
 import pizzaSizes from 'fake-data/pizzas-sizes'
@@ -28,7 +28,7 @@ const ChoosePizzaSize = () => {
         </Title>
       </Grid>
 
-      <PizzasGrid container spacing={2}>
+      <PizzasGrid>
         {pizzaSizes.map((pizza) => (
           <Grid item key={pizza.id} xs>
             <Card>
@@ -49,7 +49,6 @@ const ChoosePizzaSize = () => {
                   {singularOrPlural(pizza.flavours, 'sabor', 'sabores')}
                 </Typography>
               </CardActionArea>
-
             </Card>
           </Grid>
         ))}
@@ -58,8 +57,8 @@ const ChoosePizzaSize = () => {
   )
 }
 
-function singularOrPlural (amout, singular, plural) {
-  return amout === 1 ? singular : plural
+function singularOrPlural (amount, singular, plural) {
+  return amount === 1 ? singular : plural
 }
 
 const Divider = styled(MaterialDivider)`
@@ -72,32 +71,39 @@ const Title = styled(Typography).attrs({
   align: 'center'
 })``
 
+const PizzasGrid = styled(Grid).attrs({
+  container: true,
+  spacing: 2
+})`
+  padding: 20px;
+`
+
 const CardActionArea = styled(MaterialCardActionArea).attrs({
   component: Link
 })`
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 20px 0;
   min-width: 250px;
+  padding: 20px 0;
 `
 
 const Pizza = styled.div`
-  height: 200px;
-  width: 200px;
+  align-items: center;
+  background: #fff;
   border: 1px solid #ccc;
   border-radius: 50%;
   display: flex;
+  height: 200px;
   justify-content: center;
-  align-items: center;
   position: relative;
-  background: #fff;
+  width: 200px;
   z-index: 1;
 
   &::before,
   &::after {
-    content: '';
     background: #ccc;
+    content: '';
     position: absolute;
     transform: rotate(45deg);
   }
@@ -116,22 +122,15 @@ const Pizza = styled.div`
 const PizzaText = styled(Typography).attrs({
   variant: 'h5'
 })`
-  height: 80px;
-  width: 80px;
-  border-radius: 50%;
-  background: #fff;
-  display: flex;
-  justify-content: center;
   align-items: center;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  height: 80px;
+  justify-content: center;
   position: relative;
+  width: 80px;
   z-index: 1;
-`
-
-const PizzasGrid = styled(Grid).attrs({
-  container: true,
-  spacing: 2
-})`
-  padding: 20px;
 `
 
 export default ChoosePizzaSize
